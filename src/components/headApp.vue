@@ -1,0 +1,23 @@
+<template>
+    <header id="header" class="header">
+        <div class="container">
+            <div class="header__row d-flex">
+                <a href="#" class="header__logo logo-icon"></a>
+                <p class="header__text">
+                    Маршрутный <br>
+                    лист
+                </p>
+            </div>
+        </div>
+    </header>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style>
+
+</style>
