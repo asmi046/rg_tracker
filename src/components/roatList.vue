@@ -1,11 +1,17 @@
 <template>
   <div>
-      <h1>Main</h1>
+      <head-app></head-app>
+      <roat-detale/>
+      <roat-operation></roat-operation>
   </div>
 </template>
 
 <script>
+import headApp from './headApp.vue'
+import RoatDetale from './roatDetale.vue'
+import RoatOperation from './roatOperation.vue'
 export default {
+    components: { headApp, RoatDetale, RoatOperation },
 
 }
 </script>
