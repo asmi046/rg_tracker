@@ -19,7 +19,8 @@ module.exports = {
       manifestOptions: {
         name: 'RubEx MSE',
         short_name: 'RG MSE',
-        display: 'landscape',
+        start_url:"/index.html",
+        display: 'standalone',
         background_color: '#C40411',
         icons:[ 
             { 'src': './favicon/icon256.png', 'sizes': '192x192', 'type': 'image/png' }, 
@@ -28,10 +29,8 @@ module.exports = {
             { 'src': './favicon/icon256.png', 'sizes': '512x512', 'type': 'image/png', 'purpose': 'maskable' } ]
       },
   
-      // настройка workbox-плагина
-      workboxPluginMode: 'InjectManifest',
       workboxOptions: {
-        swSrc: 'dev/sw.js',
+        exclude: [".htaccess"]
       }
     }
   }
