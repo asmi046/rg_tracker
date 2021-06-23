@@ -10,6 +10,7 @@ export default new Vuex.Store ({
         rest_api_prefix:"https://rubexgroup.ru/wp-json/mes/v2/",
         roatLaderShow:false,
         qrReaderShowed:false,
+        roatList:[],
         productGuid: ""
     },
 
@@ -29,6 +30,7 @@ export default new Vuex.Store ({
                 console.log(response);
                 ctx.commit('showRoatLoader', false);
                 ctx.commit('setProductGuid', value);
+                ctx.commit('setRoatList', response.data);
             })
 
             .catch((error) => {
@@ -63,6 +65,10 @@ export default new Vuex.Store ({
 
         showRoatLoader(state, newVal) {
             state.roatLaderShow = newVal;
+        },
+
+        setRoatList(state, newVal) {
+            state.roatList = newVal;
         }
     },
     
@@ -81,6 +87,11 @@ export default new Vuex.Store ({
 
         ROAT_LOADER_SHOW(state) {
             return state.roatLaderShow;
+        },
+
+        ROAT_LIST(state) {
+            return state.roatList;
         }
+
     }
 })
