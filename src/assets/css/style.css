@@ -42,10 +42,6 @@
     -moz-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%; }
   
-  input,
-  button,
-  textarea {
-    font-family: ""; }
   
   input::-ms-clear {
     display: none; }
@@ -137,7 +133,6 @@
     padding: 3px;
     width: 132px;
     height: 35px;
-    font-family: 'Lato';
     font-size: 15px;
     color: #fff;
     background: #C4041C;
@@ -697,7 +692,6 @@
     .footer__contact .header__callback {
       margin-bottom: 25px; }
     .footer__contact .header__callback a {
-      font-family: 'Lato';
       font-size: 31px;
       font-weight: 500;
       color: #fff;
@@ -839,6 +833,10 @@
       background: #fff; }
     .page {
       padding-top: 48px; } }
+
+      .infoWrapper {
+        margin-top: 51px;
+      }
   
   @media (max-width: 360px) {
     .container {
