@@ -11,10 +11,15 @@ export default new Vuex.Store ({
         roatLaderShow:false,
         qrReaderShowed:false,
         roatList:[],
-        productGuid: ""
+        productGuid: "",
+
+        showDialog:false,
+        dialogResult:false
+
     },
 
     actions: {
+
         showQrReader(ctx){
             ctx.commit('showQrReader');
         },
@@ -50,6 +55,9 @@ export default new Vuex.Store ({
                 ctx.commit('showRoatLoader', false);
                 ctx.commit('setProductGuid', "");
             });
+        },
+        showDialog(ctx, value){
+            ctx.commit('showDialog', value);
         }
 
     },
@@ -69,6 +77,10 @@ export default new Vuex.Store ({
 
         setRoatList(state, newVal) {
             state.roatList = newVal;
+        },
+        showDialog(state, value){
+            state.dialogResult = false;
+            state.showDialog = value;
         }
     },
     
@@ -91,6 +103,10 @@ export default new Vuex.Store ({
 
         ROAT_LIST(state) {
             return state.roatList;
+        },
+
+        SHOW_DIALOG(state)  {
+            return state.showDialog;
         }
 
     }
