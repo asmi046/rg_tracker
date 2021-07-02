@@ -1,7 +1,8 @@
 <template>
   <div class = "appWrapper">
       <qr-reader v-show = "QR_READER_SHOWED" />
-      <head-app></head-app>
+      <head-app header = "Маршрутный лист"></head-app>
+      <dialog-win v-show="SHOW_DIALOG"></dialog-win>
       <div v-if = "PRODUCT_GUID != ''" class = "infoWrapper">
         <roat-detale/>
         <roat-operation></roat-operation>
@@ -11,6 +12,9 @@
           <button @click="openScaner">
             Сканировать QR
           </button>
+
+          <router-link class = "allRoatsButton" :to = "{ name: 'allroats' }" >Выбрать из <br/>расписания</router-link>
+          
       </div>
       
   </div>
@@ -22,12 +26,14 @@ import QrReader from './qrReader.vue'
 import RoatDetale from './roatDetale.vue'
 import RoatOperation from './roatOperation.vue'
 
+
 import {mapGetters} from 'vuex'
+import DialogWin from './dialogWin.vue'
 
 export default {
-    components: { headApp, RoatDetale, RoatOperation, QrReader },
+    components: { headApp, RoatDetale, RoatOperation, QrReader, DialogWin },
     computed: {
-        ...mapGetters (["QR_READER_SHOWED", "PRODUCT_GUID", "ROAT_LOADER_SHOW"])
+        ...mapGetters (["QR_READER_SHOWED", "PRODUCT_GUID", "ROAT_LOADER_SHOW", "ROAT_LIST", "SHOW_DIALOG"])
     },
     methods:{
       openScaner() {
@@ -45,8 +51,9 @@ export default {
   min-height: 90vh;
   display: flex;
   flex-direction: column;
-  margin: 10vh auto;
+  margin: 10vh auto 0 auto;
 }
+.qrBtnWraper .allRoatsButton, 
 .qrBtnWraper button{ 
     margin: auto;
     background-color: #C4041C;
@@ -58,6 +65,12 @@ export default {
     background-size: 40px;
     border-radius: 20px;
     font-size: 22px;
+    min-width: 220px;
+    text-align: center;
+}
+
+.qrBtnWraper .allRoatsButton {
+    background-image: url("../assets/icons/calendar.svg");
 }
 
 .loadDataQr{

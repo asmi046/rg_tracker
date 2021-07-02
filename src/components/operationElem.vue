@@ -17,14 +17,20 @@
 		</div>
 		<div class="operation__check-blok">
 			<!-- <a href="#" class="operation__check-icon"></a> -->
-            <button class="btn">Фиксировать</button>
+            <button class="btn" @click.prevent="fixThis">Фиксировать</button>
 		</div>
 	</div>
 </template>
 
 <script>
+
 export default {
-    props: ['item']
+    props: ['item'],
+	methods: {
+		fixThis() {
+			this.$store.dispatch('showDialog', true);
+		}
+	}
 }
 </script>
 

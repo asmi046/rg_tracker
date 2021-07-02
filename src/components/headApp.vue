@@ -5,8 +5,7 @@
                 <a href="#" class="header__logo logo-icon"></a>
                 <button @click.prevent="openScaner" class = "miniQrBtn"></button>
                 <p class="header__text">
-                    Маршрутный <br>
-                    лист
+                    {{header}}
                 </p>
             </div>
         </div>
@@ -17,6 +16,8 @@
 import {mapGetters} from 'vuex'
 
 export default {
+    props: ['header'],
+
     computed: {
             ...mapGetters (["QR_READER_SHOWED"])
     },

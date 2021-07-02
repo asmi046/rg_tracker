@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import roatList from '../components/roatList'
+import allRoats from '../components/allRoats'
 
 Vue.use(VueRouter);
 
@@ -13,7 +14,13 @@ let router = new VueRouter ( {
                 name: 'main',
                 meta: {title: "Маршрутный лист"},
                 component: roatList
-            }, 
+            },
+            {
+                path: '/all-roats',
+                name: 'allroats',
+                meta: {title: "Расписание"},
+                component: allRoats
+            } 
         ]
     }
 );

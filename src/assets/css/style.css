@@ -623,9 +623,13 @@
   
   .header {
     padding: 6px 0;
-    position: relative;
+    width: 100%;
+    position: fixed;
     z-index: 50000;
-    border-bottom: 1px solid #D1D2D4; }
+    border-bottom: 1px solid #D1D2D4;
+    z-index:900000;
+    background-color: white; 
+  }
   
   .header__row {
     -webkit-box-pack: justify;
@@ -667,7 +671,8 @@
     font-size: 16px;
     line-height: 19px;
     color: #6D6E72;
-    text-align: right; }
+    text-align: right; 
+  max-width: 100px;}
   
   .footer {
     background: #86A298; }

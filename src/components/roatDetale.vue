@@ -13,7 +13,7 @@
             <div class="tables__string">
                 <div class="tables__container container">
                     <div class="tables__cell">Клиент:</div>
-                    <div class="tables__cell">ООО "Рога и копыта"</div>
+                    <div class="tables__cell">{{ROAT_LIST.head.contragent}}</div>
                 </div>
             </div>
 
@@ -48,7 +48,7 @@
             <div class="tables__string">
                 <div class="tables__container container">
                     <div class="tables__cell">Расчетный срок:</div>
-                    <div class="tables__cell">30.12.2021</div>
+                    <div class="tables__cell">{{ROAT_LIST.head.plan_data}}</div>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
             <div class="tables__string">
                 <div class="tables__container container">
                     <div class="tables__cell">Плановый срок:</div>
-                    <div class="tables__cell">11.12.2021</div>
+                    <div class="tables__cell">{{ROAT_LIST.head.calc_data}}</div>
                 </div>
             </div>
 
