@@ -674,8 +674,6 @@
     text-align: right; 
   max-width: 100px;}
   
-  .footer {
-    background: #86A298; }
     .footer__container {
       display: -webkit-box;
       display: -ms-flexbox;

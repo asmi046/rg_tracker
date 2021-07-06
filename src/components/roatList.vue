@@ -2,7 +2,7 @@
   <div class = "appWrapper">
       <qr-reader v-show = "QR_READER_SHOWED" />
       <head-app header = "Маршрутный лист"></head-app>
-      <dialog-win v-show="SHOW_DIALOG"></dialog-win>
+      <dialog-win v-show="SHOW_DIALOG" :information = "winParam"></dialog-win>
       <div v-if = "PRODUCT_GUID != ''" class = "infoWrapper">
         <roat-detale/>
         <roat-operation></roat-operation>
@@ -31,14 +31,40 @@ import {mapGetters} from 'vuex'
 import DialogWin from './dialogWin.vue'
 
 export default {
+    data() {
+      return {
+        winParam: {
+          head: "Фиксация этапов",
+          msg: "Вы хотите зафиксировать:<br/>1<br/>2",
+          callback: {
+              doOk() {
+                console.log("WinOk");
+              },
+
+              doConcle() {
+                console.log("NoOk");
+              }
+          }
+        }
+      }
+    },
+
     components: { headApp, RoatDetale, RoatOperation, QrReader, DialogWin },
     computed: {
         ...mapGetters (["QR_READER_SHOWED", "PRODUCT_GUID", "ROAT_LOADER_SHOW", "ROAT_LIST", "SHOW_DIALOG"])
     },
+
     methods:{
       openScaner() {
-           this.$store.dispatch('showQrReader');
-           console.log(this.QR_READER_SHOWED);
+        // aa30fea8-ce90-11eb-80f9-90b11c05915c
+        // aa30fea9-ce90-11eb-80f9-90b11c05915c
+        // aa30feaa-ce90-11eb-80f9-90b11c05915c
+        // aa30feaa-ce90-11eb-80f9-90b11c05915c
+        // aa30feac-ce90-11eb-80f9-90b11c05915c
+           
+           this.$store.dispatch('setProductGuid', "aa30fea8-ce90-11eb-80f9-90b11c05915c");
+          //  this.$store.dispatch('showQrReader');
+           
       }
     }
 }
