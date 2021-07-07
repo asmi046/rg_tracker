@@ -2,7 +2,7 @@
     <header id="header" class="header">
         <div class="container">
             <div class="header__row d-flex">
-                <a href="#" class="header__logo logo-icon"></a>
+                <router-link :to = "{ name: 'main' }" class="header__logo logo-icon"></router-link>
                 <button @click.prevent="openScaner" class = "miniQrBtn"></button>
                 <p class="header__text">
                     {{header}}

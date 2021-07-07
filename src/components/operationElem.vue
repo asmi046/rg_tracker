@@ -91,7 +91,7 @@ export default {
 			{
 				console.log(this.ROAT_LIST.timeline[i]);
 				if (parseInt(this.ROAT_LIST.timeline[i].fixation) == 0) {
-					this.fixArray.push(this.ROAT_LIST.timeline[i].operation_number);
+					this.fixArray.push(this.ROAT_LIST.timeline[i].id);
 					textFixation += "Операция № "+this.ROAT_LIST.timeline[i].operation_number+" / "+this.ROAT_LIST.timeline[i].work_centers+"<br/>";
 				}
 			}

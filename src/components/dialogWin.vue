@@ -30,7 +30,6 @@ export default {
         },
 
         doOk () {
-    
            this.information.callback.doOk(); 
         }
     }

@@ -1,18 +1,24 @@
 <template>
     <div class = "qr_zone">
         <button @click.prevent="closeQrScaner" class = "close">Закрыть</button>
-        <qrcode-stream :track="paintOutline" @decode="onDecode" @init="onInit"></qrcode-stream> 
+        <qrcode-stream :camera="QR_READER_CAMERA_STATE" :track="paintOutline" @decode="onDecode" @init="onInit"></qrcode-stream> 
     </div>
 </template>
 
 <script>
 import { QrcodeStream } from 'vue-qrcode-reader'
+import {mapGetters} from 'vuex'
 
 export default {
     components: {
         QrcodeStream
     },
-    
+    computed: {
+        ...mapGetters (["QR_READER_CAMERA_STATE"]),
+
+        
+    },
+
     methods: {
 
         closeQrScaner() {
@@ -39,6 +45,9 @@ export default {
             console.log(result);
             this.$store.dispatch('setProductGuid',result);
             this.$store.dispatch('showQrReader');
+            console.log("Scaned");
+            if (this.$router.currentRoute.name != 'roatlist')
+            this.$router.push({ name: 'roatlist'})
         },
 
         async onInit (promise) {

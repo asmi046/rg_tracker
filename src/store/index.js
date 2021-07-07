@@ -10,6 +10,7 @@ export default new Vuex.Store ({
         rest_api_prefix:"https://rubexgroup.ru/wp-json/mes/v2/",
         roatLaderShow:false,
         qrReaderShowed:false,
+        qrReaderCameraState:"off",
         roatList:[],
         productGuid: "",
 
@@ -25,6 +26,7 @@ export default new Vuex.Store ({
         },
         setProductGuid(ctx, value) {
             ctx.commit('showRoatLoader', true);
+            ctx.commit('setProductGuid', "");
             axios.get(ctx.state.rest_api_prefix + 'get_timeline',
             {
                 params: {
@@ -65,6 +67,12 @@ export default new Vuex.Store ({
     mutations: {
         showQrReader(state) {
             state.qrReaderShowed = !state.qrReaderShowed;
+
+            if (state.qrReaderShowed)
+                state.qrReaderCameraState = "auto"
+            else
+                state.qrReaderCameraState = "off"
+
         },
 
         setProductGuid(state, newVal) {
@@ -91,6 +99,10 @@ export default new Vuex.Store ({
 
         QR_READER_SHOWED(state) {
             return state.qrReaderShowed;
+        },
+
+        QR_READER_CAMERA_STATE(state) {
+            return state.qrReaderCameraState;
         },
 
         PRODUCT_GUID(state) {
