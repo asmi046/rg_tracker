@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import roatList from '../components/roatList'
 import allRoats from '../components/allRoats'
+import mainPage from '../components/mainPage'
 
 Vue.use(VueRouter);
 
@@ -12,6 +13,12 @@ let router = new VueRouter ( {
             {
                 path: '/',
                 name: 'main',
+                meta: {title: "Трекинг производства"},
+                component: mainPage
+            },
+            {
+                path: '/roat-list',
+                name: 'roatlist',
                 meta: {title: "Маршрутный лист"},
                 component: roatList
             },
@@ -26,6 +33,7 @@ let router = new VueRouter ( {
 );
 
 router.beforeEach((to, from, next) => {
+    
     document.title = to.meta.title;
     console.log(to);
     console.log(from);
