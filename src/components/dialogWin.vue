@@ -12,8 +12,8 @@
             </div>
 
             <div class="footer">
-                <button class = "btn concle" @click.prevent="closeWin">Oтменить</button>
                 <button class = "btn ok" @click.prevent="doOk">Фиксировать</button>
+                <button class = "btn concle" @click.prevent="closeWin">Oтменить</button>
             </div>
         </div>
     </div>
@@ -96,7 +96,17 @@ export default {
 .footer {
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
     padding: 5px 0;
+}
+
+.footer button{
+    width: 100%;
+    margin: 5px 0;
+}
+
+.concle {
+    background-color: #6d6e72;
 }
 
 </style>

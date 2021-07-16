@@ -107,8 +107,7 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
     .controlPanel {
         width: 100%;
         display: flex;   
