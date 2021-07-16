@@ -7,8 +7,8 @@
             </div>
 
             <div class="body">
-                <h2 class="msg" v-html = "information.msg">
-                </h2>
+                <h2 v-if = "information.fixAllow" class="msg" v-html = "information.msg"></h2>
+                <h2 v-else  class="msg">Зафиксируйте предыдущую операцию</h2>
             </div>
 
             <div class="footer">

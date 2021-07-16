@@ -32,10 +32,13 @@ export default {
 	data() {
       return {
 		show_this_dialog:false, 
+		
 		fixArray:[], 
 		winParam: {
 				head: "Фиксация этапов",
 				msg: "",
+				fixSatatuses:[],
+				fixAllow: false,
 				callback: {
 					doOk: () => {
 						axios.get(this.REST_API_PREFIX + 'set_fix',
@@ -84,24 +87,43 @@ export default {
     },
 	methods: {
 		fixThis() {
-			
-			this.fixArray = [];
-			let textFixation = "Вы хотите зафиксировать:<br/>";
-			for (let i = 0; i < parseInt(this.item.operation_number); i++)
+			let operationNumber =parseInt (this.item.operation_number);
+			if (operationNumber == 1)
 			{
-				console.log(this.ROAT_LIST.timeline[i]);
-				if (parseInt(this.ROAT_LIST.timeline[i].fixation) == 0) {
-					this.fixArray.push(this.ROAT_LIST.timeline[i].id);
-					textFixation += "Операция № "+this.ROAT_LIST.timeline[i].operation_number+" / "+this.ROAT_LIST.timeline[i].work_centers+"<br/>";
+				this.winParam.msg = "Вы хотите зафиксировать:<br/>".
+				this.winParam.fixSatatuses = this.ROAT_LIST.timeline[0].fix_statuses;
+				this.ROAT_LIST.timeline[0].operation_name+" / "+this.ROAT_LIST.timeline[0].work_centers+"<br/>";
+				this.winParam.fixAllow = true;
+			} else {
+				if (parseInt(this.ROAT_LIST.timeline[operationNumber-2].fixation) == 0) 
+				{
+					this.winParam.fixAllow = false;
+				} else {
+					this.winParam.msg = "Вы хотите зафиксировать:<br/>".
+					this.winParam.fixSatatuses = this.ROAT_LIST.timeline[operationNumber-1].fix_statuses;
+					this.ROAT_LIST.timeline[operationNumber-1].operation_name+" / "+this.ROAT_LIST.timeline[operationNumber-1].work_centers+"<br/>";
+					this.winParam.fixAllow = true;
 				}
 			}
-
-			console.log(this.fixArray);
-			console.log(textFixation);
-
-			this.winParam.msg = textFixation;
+			
 			this.show_this_dialog = true;
-			// this.$store.dispatch('showDialog', true);
+
+			// this.fixArray = [];
+			// let textFixation = "Вы хотите зафиксировать:<br/>";
+			// for (let i = 0; i < parseInt(this.item.operation_number); i++)
+			// {
+			// 	console.log(this.ROAT_LIST.timeline[i]);
+			// 	if (parseInt(this.ROAT_LIST.timeline[i].fixation) == 0) {
+			// 		this.fixArray.push(this.ROAT_LIST.timeline[i].id);
+			// 		textFixation += "Операция № "+this.ROAT_LIST.timeline[i].operation_number+" / "+this.ROAT_LIST.timeline[i].work_centers+"<br/>";
+			// 	}
+			// }
+
+			// console.log(this.fixArray);
+			// console.log(textFixation);
+
+			// this.winParam.msg = textFixation;
+			// this.show_this_dialog = true;
 		}
 	}
 }
