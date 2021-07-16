@@ -2,7 +2,7 @@
     <div class="operation__item-block">
 		<dialog-win v-show="show_this_dialog" :information = "winParam" ></dialog-win>
 		<div class="operation__item-title">
-			<h2>Операция № {{item.operation_number}} / {{item.work_centers}}</h2>
+			<h2>{{item.operation_name}} / {{item.work_centers}}</h2>
 		</div>
 		<div class="operation__tables">
 			<div class="operation__string d-flex">

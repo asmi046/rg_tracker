@@ -3,7 +3,13 @@
         <qr-reader v-show = "QR_READER_SHOWED" />
         <head-app header = "Полное расписание"></head-app>
         
-        <div class="allRoatsWrapper infoWrapper">
+        <div class="controlPanel infoWrapper">
+            <form action="" class="serchForm">
+                <input v-model="searchStr" type="text" class="serchElement" placeholder = "Введите запрос">
+            </form>
+        </div>
+
+        <div class="allRoatsWrapper ">
             <div v-for = "(item, index) in allRoats" :item = "item" :key="item.id" :class = "'al_element_'+index" class="al_element">
                 <div class="head">
                     <h2>{{item.order_number}}</h2>
@@ -23,7 +29,7 @@
 
                 </div>
                 <div class="footer">
-                    <button class="btn selectElem">Выбрать</button>
+                    <button @click.prevent="setGuid(item.id_guid)" class="btn selectElem">Выбрать</button>
                 </div>
             </div>
         </div>
@@ -41,6 +47,7 @@ export default {
     components: { qrReader, HeadApp },
     data() {
         return {
+            searchStr:"",
             allRoats:[]
         } 
     },
@@ -49,12 +56,25 @@ export default {
         ...mapGetters (["REST_API_PREFIX", "QR_READER_SHOWED"])
     },
 
+    watch: { 
+        searchStr: function() {
+            
+                this.getRoats();
+        
+        }
+    },
+
     methods:{
+        setGuid(guid) {
+            this.$store.dispatch('setProductGuid', guid);
+            this.$router.push({ name: 'roatlist'});
+        },
+
         getRoats() {
             axios.get(this.REST_API_PREFIX + 'get_timetable',
             {
                 params: {
-                    zaknumber: 1
+                    search_str: this.searchStr
                 }
             })
             .then( (response) => {
@@ -87,7 +107,26 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+    .controlPanel {
+        width: 100%;
+        display: flex;   
+        margin-bottom: 10px;     
+    }
+
+    .serchForm {
+        width:95%;
+        margin: 15px auto 0 auto;
+    }
+
+    .serchForm input{ 
+        border: 1px solid #D1D2D4;
+        border-radius: 10px;
+        min-height: 35px;
+        width: 100%;
+        padding: 0 10px;
+    }
+
     .allRoatsWrapper {
         display: flex;
         flex-direction: column;
@@ -101,8 +140,6 @@ export default {
         margin: 10px auto;
         width:95%;
     }
-
-
 
     .al_element h2 {
         font-size: 20px;
