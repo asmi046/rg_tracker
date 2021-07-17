@@ -17,6 +17,7 @@
 			</div>
 		</div>
 		<div class="operation__check-blok">
+			<p v-if = "item.fixation == '1'" class="statusLabe">Статус: {{item.fixation_status}}</p>
 			<span v-if = "item.fixation == '1'" class="operation__check-icon"></span>
             <button v-else class="btn" @click.prevent="fixThis">Фиксировать</button>
 		</div>
@@ -40,11 +41,12 @@ export default {
 				fixSatatuses:[],
 				fixAllow: false,
 				callback: {
-					doOk: () => {
+					doOk: (status) => {
 						axios.get(this.REST_API_PREFIX + 'set_fix',
 						{
 							params: {
-								id_list: this.fixArray
+								id_list: this.fixArray,
+								status:status
 							}
 						})
 						.then( (response) => {
@@ -87,25 +89,30 @@ export default {
     },
 	methods: {
 		fixThis() {
-			let operationNumber =parseInt (this.item.operation_number);
+			let operationNumber = parseInt (this.item.operation_number);
 			if (operationNumber == 1)
 			{
-				this.winParam.msg = "Вы хотите зафиксировать:<br/>".
-				this.winParam.fixSatatuses = this.ROAT_LIST.timeline[0].fix_statuses;
+				console.log(1);
+				console.log(this.winParam);
+				this.winParam.msg = "Вы хотите зафиксировать:<br/>"+
 				this.ROAT_LIST.timeline[0].operation_name+" / "+this.ROAT_LIST.timeline[0].work_centers+"<br/>";
+				this.winParam.fixSatatuses = this.ROAT_LIST.timeline[0].fix_statuses;
 				this.winParam.fixAllow = true;
 			} else {
 				if (parseInt(this.ROAT_LIST.timeline[operationNumber-2].fixation) == 0) 
 				{
+					console.log(2);
 					this.winParam.fixAllow = false;
 				} else {
-					this.winParam.msg = "Вы хотите зафиксировать:<br/>".
-					this.winParam.fixSatatuses = this.ROAT_LIST.timeline[operationNumber-1].fix_statuses;
+					console.log(3);
+					this.winParam.msg = "Вы хотите зафиксировать:<br/>"+
 					this.ROAT_LIST.timeline[operationNumber-1].operation_name+" / "+this.ROAT_LIST.timeline[operationNumber-1].work_centers+"<br/>";
+					this.winParam.fixSatatuses = this.ROAT_LIST.timeline[operationNumber-1].fix_statuses;					
 					this.winParam.fixAllow = true;
 				}
 			}
 			
+			this.fixArray.push(this.ROAT_LIST.timeline[operationNumber-1].id);
 			this.show_this_dialog = true;
 
 			// this.fixArray = [];
@@ -130,5 +137,8 @@ export default {
 </script>
 
 <style>
+.statusLabe {
+	margin: auto 20px auto auto;
+}
 
 </style>

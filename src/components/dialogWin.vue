@@ -12,7 +12,9 @@
             </div>
 
             <div class="footer">
-                <button class = "btn ok" @click.prevent="doOk">Фиксировать</button>
+                
+                <button @click.prevent="doOk(item.fix_status)" v-for = "(item, index) in this.information.fixSatatuses" :item = "item" :key="item.id" :class = "'btn_ok_'+index" class = "btn ok">Статус: {{item.fix_status}}</button>
+                <!-- <button class = "btn ok" @click.prevent="doOk">Фиксировать</button> -->
                 <button class = "btn concle" @click.prevent="closeWin">Oтменить</button>
             </div>
         </div>
@@ -29,8 +31,8 @@ export default {
             this.information.callback.doConcle(); 
         },
 
-        doOk () {
-           this.information.callback.doOk(); 
+        doOk (status) {
+           this.information.callback.doOk(status); 
         }
     }
 }
