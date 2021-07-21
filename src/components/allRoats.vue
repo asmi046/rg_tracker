@@ -12,7 +12,7 @@
         <div class="allRoatsWrapper ">
             <div v-for = "(item, index) in allRoats" :item = "item" :key="item.id" :class = "'al_element_'+index" class="al_element">
                 <div class="head">
-                    <h2>{{item.order_number}}</h2>
+                    <h2>{{item.order_number}} ({{item.contragent}})</h2>
                 </div>
                 <div class="body">
                     <div class="tableRow ">
