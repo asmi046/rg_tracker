@@ -4,6 +4,8 @@ import VueRouter from 'vue-router'
 import roatList from '../components/roatList'
 import allRoats from '../components/allRoats'
 import mainPage from '../components/mainPage'
+import workCenters from '../components/workCenters'
+import workCenter from '../components/workCenter'
 
 Vue.use(VueRouter);
 
@@ -27,6 +29,19 @@ let router = new VueRouter ( {
                 name: 'allroats',
                 meta: {title: "Расписание"},
                 component: allRoats
+            },
+            {
+                path: '/work-centers',
+                name: 'workcenters',
+                meta: {title: "Рабочие центры"},
+                component: workCenters
+            },
+            {
+                path: '/work-center:center/',
+                name: 'workcenter',
+                meta: {title: "Рабочий центр"},
+                props: true,
+                component: workCenter
             } 
         ]
     }

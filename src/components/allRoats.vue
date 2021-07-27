@@ -11,25 +11,31 @@
 
         <div class="allRoatsWrapper ">
             <div v-for = "(item, index) in allRoats" :item = "item" :key="item.id" :class = "'al_element_'+index" class="al_element">
-                <div class="head">
-                    <h2>{{item.order_number}} ({{item.contragent}})</h2>
+                <div class="head" :class = "{head_select:item.show }">
+                    <h2>
+                        {{item.order_number}} ({{item.contragent}}) <br/>
+                        Плановая: {{ new Date(item.plan_data).toLocaleDateString()}}<br/>
+                        Расчетная: {{new Date(item.calc_data).toLocaleDateString()}}<br/>
+                    </h2>
                 </div>
-                <div class="body">
-                    <div class="tableRow ">
+                <div v-show="item.show" class="body">
+                    <div v-for = "(itemProd, index) in item.elements" :item = "item" :key="itemProd.id" :class = "'tableRow_'+index" class="tableRow ">
                         <div class="tableCell cellHead elem1">Наменклатура</div>
                         <div class="tableCell cellHead elem2">Спецификация</div>
                         <div class="tableCell cellHead elem3">Количество</div>
                         <div class="tableCell cellHead elem4">№ бухты</div>
+                        <div class="tableCell cellHead elem5">Управление</div>
                         
-                        <div class="tableCell elem5">{{item.nam}}</div>
-                        <div class="tableCell elem6">{{item.sp}}</div>
-                        <div class="tableCell elem7">{{item.count}}</div>
-                        <div class="tableCell elem8">{{item.buhta_number}}</div>
+                        <div class="tableCell elem6">{{itemProd.nam}}</div>
+                        <div class="tableCell elem7">{{itemProd.sp}}</div>
+                        <div class="tableCell elem8">{{itemProd.count}}</div>
+                        <div class="tableCell elem9">{{itemProd.buhta_number}}</div>
+                        <div class="tableCell elem10"><button @click.prevent="setGuid(itemProd.id_guid)" class="btn selectElem">Выбрать</button></div>
                     </div>
 
                 </div>
                 <div class="footer">
-                    <button @click.prevent="setGuid(item.id_guid)" class="btn selectElem">Выбрать</button>
+                    <button @click.prevent="item.show = !item.show" :class = "{btn_gray:item.show }" class="btn">{{(!item.show)?"Показать все":"Свернуть" }}</button>
                 </div>
             </div>
         </div>
@@ -108,6 +114,10 @@ export default {
 </script>
 
 <style scoped>
+
+.btn_gray {
+    background-color: #6d6e72;
+}
     .controlPanel {
         width: 100%;
         display: flex;   
@@ -139,6 +149,7 @@ export default {
         flex-direction: column;
         margin: 10px auto;
         width:95%;
+        overflow: hidden;
     }
 
     .al_element h2 {
@@ -153,15 +164,24 @@ export default {
         padding: 10px 15px;
     }
 
+    .head_select {
+        background-color: #C4041C;
+        
+    }
+
+    .head_select h2{
+        color: white;
+    }
+
     .body {
         padding: 0!important;
         border-top: 1px solid #D1D2D4;
-        border-bottom: 1px solid #D1D2D4;
+        
     }
 
     .tableRow {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr);
     }
 
     .tableCell {
@@ -170,20 +190,32 @@ export default {
         color: #C4041C;
     }
 
-    .tableRow .tableCell:nth-child(4n){
+    .tableRow .tableCell:nth-child(5n){
         border-right: none;
     }
 
     .cellHead {
         border-bottom: 1px solid #D1D2D4;
+        border-top: 1px solid #D1D2D4;
         color: #6D6E72;
         font-size: 12px;
     }
 
+    .body .tableRow:first-child .cellHead {
+        border-top: none;
+    }
+    
     .footer {
         display: flex;
         justify-content: flex-end;
+        border-top: 1px solid #D1D2D4;
+        
     }
+
+            .elem10 {
+                display: flex;
+            justify-content: flex-end;
+        }
 
     @media (max-width: 680px) { 
         .tableRow {
@@ -204,7 +236,7 @@ export default {
             grid-row-end: 2;
         }
 
-        .elem5 {
+        .elem7 {
             grid-column-start: 1;
             grid-column-end: 2;
             grid-row-start: 2;
@@ -212,12 +244,29 @@ export default {
             
         }
 
-        .elem6 {
+        .elem8 {
             grid-column-start: 2;
             grid-column-end: 3;
             grid-row-start: 2;
             grid-row-end: 3;
             
+        }
+
+        .elem10 {
+            grid-column-start: 1;
+            grid-column-end: 3;
+            border-top: 1px solid #D1D2D4; 
+        }
+
+        .elem5 {
+            display: none;
+        }
+
+
+
+
+        .elem2,.elem4,.elem8,.elem9 {
+            border-right:none;
         }
 
         .elem3 {
@@ -227,6 +276,8 @@ export default {
         .elem4 {
             border-top: 1px solid #D1D2D4;
         }
+
+
     }
 
 

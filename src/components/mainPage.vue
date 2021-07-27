@@ -4,6 +4,8 @@
         <div class="qrBtnWraper">
             <button @click="openScaner">Сканировать QR</button>
             <router-link class = "allRoatsButton" :to = "{ name: 'allroats' }" >Выбрать из <br/>расписания</router-link>
+            <router-link class = "workCentersButton" :to = "{ name: 'workcenters' }" >Рабочие <br/>центры</router-link>
+
         </div>
 
         
@@ -42,6 +44,7 @@ export default {
     flex-direction: column;
     margin: 10vh auto 0 auto;
     }
+    .qrBtnWraper .workCentersButton, 
     .qrBtnWraper .allRoatsButton, 
     .qrBtnWraper button{ 
         margin: auto;
@@ -60,5 +63,8 @@ export default {
 
     .qrBtnWraper .allRoatsButton {
         background-image: url("../assets/icons/calendar.svg");
+    }
+    .qrBtnWraper .workCentersButton {
+        background-image: url("../assets/icons/press-machine.svg");
     }
 </style>
