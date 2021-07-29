@@ -67,4 +67,11 @@ export default {
     .qrBtnWraper .workCentersButton {
         background-image: url("../assets/icons/press-machine.svg");
     }
+
+    @media (max-width: 680px) {  
+        .qrBtnWraper {
+            min-height: 80vh;
+
+        }
+    }
 </style>

@@ -5,11 +5,28 @@
 
         <div class="allWorkCenters">
             <h1>{{$route.params.center}}</h1>
-            <router-link  :to = "{ name: 'workcenters'}" class="btn backBtn">&larr; К списку РЦ</router-link>
+
+            <div class="btnWrapper">
+                <router-link  :to = "{ name: 'workcenters'}" class="btn backBtn">&larr; К списку РЦ</router-link>
+                <select @change.prevent="getCenter()" v-model = "dataElem" class = "selectData">
+                    <option selected value = "">Сегодня</option>
+                    <option v-for = "(item, index) in workCenter.dates" :item = "item" :key="item.start_data" :class = "'oneWc_'+index" :value = "item.start_data">{{new Date(item.start_data).toLocaleDateString()}}</option>
+
+                </select>
+            </div>
+            
             <div class="allWorkCenter">
-                <div v-for = "(item, index) in workCenter" :item = "item" :key="item.id" :class = "'oneWc_'+index" class="oneWc">
+                <div v-for = "(item, index) in workCenter.timeline" :item = "item" :key="item.id" :class = "'oneWc_'+index" class="oneWc">
                     <div class="stb stb1">
                         <span class = "red">{{item.order_number}}</span> {{item.contragent}} 
+                    </div>
+
+                    <div class="stb stb1_1">
+                        {{item.nam}}
+                    </div>
+
+                    <div class="stb stb1_2">
+                        {{item.buhta_number}}
                     </div>
                     
                     <div class="stb stb2">
@@ -20,11 +37,15 @@
                         {{new Date(item.start_data).toLocaleDateString()}} 
                     </div>
                     
+                    <div class="stb stb4">
+                        {{item.fixation_status}} 
+                    </div>
+                    
                 </div>
             </div>
 
-            <div v-if = "workCenter.length == 0" class="noInfo">
-                <h2>Нет данных по этому рабочему центру</h2>
+            <div v-if = "workCenter.timeline == 0" class="noInfo">
+                <h2>Нет данных по этому рабочему центру на эту дату</h2>
             </div>
         </div>
     </div>
@@ -38,7 +59,8 @@ import {mapGetters} from 'vuex'
 export default {
     data() {
         return {
-            workCenter:[]
+            workCenter:[],
+            dataElem:""
         }
     },
 
@@ -57,7 +79,7 @@ export default {
             {
                 params: {
                     center: this.$route.params.center,
-                    rpdata:''
+                    rpdata:this.dataElem
                 }
             })
             .then( (response) => {
@@ -90,6 +112,15 @@ export default {
 </script>
 
 <style>
+    .selectData {
+        margin: auto 0 auto auto;
+    }
+
+    .btnWrapper {
+        width: 100%;
+        display: flex;
+    }
+    
     .allWorkCenter{
         display: flex;
         justify-content: space-between;
@@ -103,9 +134,9 @@ export default {
         border: 1px solid #D1D2D4;
         border-radius: 10px;
         
-        margin: 10px;
+        margin: 10px 0;
         width: 100%;
-        min-width: 320px;
+        min-width: 300px;
         display: flex;
     }
 
@@ -114,9 +145,12 @@ export default {
         padding: 10px;
     }
 
-    .oneWc .stb2 { 
-        border-left: 1px solid #D1D2D4;
+    .oneWc .stb { 
         border-right: 1px solid #D1D2D4;
+    }
+
+    .oneWc .stb:last-child { 
+        border-right: none;
     }
 
     h1 {
@@ -135,7 +169,14 @@ export default {
         color: #C4041C;    
     }
 
-    @media (max-width: 580px) { 
+    @media (max-width: 1024px) { 
+        .oneWc .stb { 
+            min-width: 16%;
+            overflow: hidden;
+        }
+    }
+
+    @media (max-width: 780px) { 
         .oneWc .stb {
             width: 100%;
         }
@@ -144,10 +185,13 @@ export default {
             flex-direction: column;            
         }
 
-        .oneWc .stb2 {
+        .oneWc .stb {
             border: none; 
-            border-top: 1px solid #D1D2D4;
             border-bottom: 1px solid #D1D2D4;
+        }
+
+        .oneWc .stb:last-child { 
+            border-bottom: none;
         }
     }
 

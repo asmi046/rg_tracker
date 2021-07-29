@@ -188,6 +188,13 @@
     -moz-appearance: none;
     appearance: none; }
   
+  select {
+    border: 1px solid #D1D2D4;
+    border-radius: 20px;
+    height: 35px;
+    padding: 0 10px 0 10px;
+  }  
+
   .input, .input__phone {
     border-radius: 25px;
     width: 100%;
