@@ -10,7 +10,7 @@
                 <router-link  :to = "{ name: 'workcenters'}" class="btn backBtn">&larr; К списку РЦ</router-link>
                 <select @change.prevent="getCenter()" v-model = "dataElem" class = "selectData">
                     <option selected value = "">Сегодня</option>
-                    <option v-for = "(item, index) in workCenter.dates" :item = "item" :key="item.start_data" :class = "'oneWc_'+index" :value = "item.start_data">{{new Date(item.start_data).toLocaleDateString()}}</option>
+                    <option v-for = "(item, index) in workCenter.dates" :item = "item" :key="item.start_data" :class = "'oneWc_'+index" :value = "item.start_data">{{new Date(item.start_data.replace(/-/g, "/")).toLocaleDateString()}}</option>
 
                 </select>
             </div>
@@ -34,7 +34,7 @@
                     </div>
                     
                     <div class="stb stb3">
-                        {{new Date(item.start_data).toLocaleDateString()}} 
+                        {{new Date(item.start_data.replace(/-/g, "/")).toLocaleDateString()}} 
                     </div>
                     
                     <div class="stb stb4">

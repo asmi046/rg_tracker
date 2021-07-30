@@ -48,7 +48,7 @@
             <div class="tables__string">
                 <div class="tables__container container">
                     <div class="tables__cell">Расчетный срок:</div>
-                    <div class="tables__cell">{{new Date(ROAT_LIST.head.plan_data).toLocaleDateString()}}</div>
+                    <div class="tables__cell">{{new Date(ROAT_LIST.head.plan_data.replace(/-/g, "/")).toLocaleDateString()}}</div>
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
             <div class="tables__string">
                 <div class="tables__container container">
                     <div class="tables__cell">Плановый срок:</div>
-                    <div class="tables__cell">{{new Date(ROAT_LIST.head.calc_data).toLocaleDateString()}}</div>
+                    <div class="tables__cell">{{new Date(ROAT_LIST.head.calc_data.replace(/-/g, "/")).toLocaleDateString()}}</div>
                 </div>
             </div>
 

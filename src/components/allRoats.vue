@@ -14,8 +14,8 @@
                 <div class="head" :class = "{head_select:item.show }">
                     <h2>
                         {{item.order_number}} ({{item.contragent}}) <br/>
-                        Плановая: {{ new Date(item.plan_data).toLocaleDateString()}}<br/>
-                        Расчетная: {{new Date(item.calc_data).toLocaleDateString()}}<br/>
+                        Плановая: {{ new Date(item.plan_data.replace(/-/g, "/")).toLocaleDateString()}}<br/>
+                        Расчетная: {{new Date(item.calc_data.replace(/-/g, "/")).toLocaleDateString()}}<br/>
                     </h2>
                 </div>
                 <div v-show="item.show" class="body">
