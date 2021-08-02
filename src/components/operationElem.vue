@@ -8,18 +8,21 @@
 			<div class="operation__string d-flex">
 				<div class="operation__cell">Начало</div>
 				<div class="operation__cell">Конец</div>
+				<div class="operation__cell">Старт</div>
 				<div class="operation__cell">Фактически</div>
 			</div>
 			<div class="operation__string c-red d-flex">
 				<div class="operation__cell">{{item.start_data}}</div>
 				<div class="operation__cell">{{item.finish_data}}</div>
+				<div class="operation__cell">{{item.started_data}}</div>
 				<div class="operation__cell">{{item.fact_data}}</div>
 			</div>
 		</div>
 		<div class="operation__check-blok">
 			<p v-if = "item.fixation == '1'" class="statusLabe">Статус: {{item.fixation_status}}</p>
+			<button v-if = "(item.started == '0')&&(item.fixation == '0')" class="btn btnStart" @click.prevent="startThis(item.id)">Старт</button>
 			<span v-if = "item.fixation == '1'" class="operation__check-icon"></span>
-            <button v-else class="btn" @click.prevent="fixThis">Фиксировать</button>
+            <button :disabled = "(item.started == '0')" v-else class="btn" @click.prevent="fixThis()">Фиксировать</button>
 		</div>
 	</div>
 </template>
@@ -114,23 +117,36 @@ export default {
 			
 			this.fixArray.push(this.ROAT_LIST.timeline[operationNumber-1].id);
 			this.show_this_dialog = true;
+		},
 
-			// this.fixArray = [];
-			// let textFixation = "Вы хотите зафиксировать:<br/>";
-			// for (let i = 0; i < parseInt(this.item.operation_number); i++)
-			// {
-			// 	console.log(this.ROAT_LIST.timeline[i]);
-			// 	if (parseInt(this.ROAT_LIST.timeline[i].fixation) == 0) {
-			// 		this.fixArray.push(this.ROAT_LIST.timeline[i].id);
-			// 		textFixation += "Операция № "+this.ROAT_LIST.timeline[i].operation_number+" / "+this.ROAT_LIST.timeline[i].work_centers+"<br/>";
-			// 	}
-			// }
+		startThis(id) {
+			axios.get(this.REST_API_PREFIX + 'set_start',
+			{
+				params: {
+					id: id,
+				}
+			})
+			.then( (response) => {
+				console.log(response);
+				this.$store.dispatch('setProductGuid', this.PRODUCT_GUID);
+			})
 
-			// console.log(this.fixArray);
-			// console.log(textFixation);
+			.catch((error) => {
+				let rezText = "";
+					if (error.response)
+					{
+						rezText = error.response.data.message;
+					} else 
+					if (error.request) {
+						rezText = error.message;
+					} else {
+						rezText = error.message;
+					}
 
-			// this.winParam.msg = textFixation;
-			// this.show_this_dialog = true;
+				console.log(rezText);
+				console.log(error.config);
+			});
+						
 		}
 	}
 }
@@ -139,6 +155,11 @@ export default {
 <style>
 .statusLabe {
 	margin: auto 20px auto auto;
+}
+
+.btnStart {
+	background-color: #347815;
+	margin: auto 20px auto 0;
 }
 
 </style>

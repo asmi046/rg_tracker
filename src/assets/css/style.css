@@ -137,6 +137,11 @@
     color: #fff;
     background: #C4041C;
     border-radius: 35px; }
+
+  .btn:disabled {
+    filter: grayscale(80%);
+  }
+
     .btn.fw {
       width: 100%; }
   
