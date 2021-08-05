@@ -188,10 +188,13 @@
     line-height: 16px;
     left: 20px; }
   
-  input[type=text], input[type=email], input[type=tel], textarea {
+  input[type=text], input[type=email], input[type=number], input[type=tel], textarea {
     -webkit-appearance: none;
     -moz-appearance: none;
-    appearance: none; }
+    appearance: none; 
+  
+    border: 1px solid lightgray;
+  }
   
   select {
     border: 1px solid #D1D2D4;

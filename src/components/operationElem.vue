@@ -1,6 +1,8 @@
 <template>
     <div class="operation__item-block">
 		<dialog-win v-show="show_this_dialog" :information = "winParam" ></dialog-win>
+		<dialog-win-start v-show="show_start_dialog" :information = "startWinParam" ></dialog-win-start>
+		<dialog-win-quality v-show="show_quality_dialog" :information = "qualityWinParam"></dialog-win-quality>
 		<div class="operation__item-title">
 			<h2>{{item.operation_name}} / {{item.work_centers}}</h2>
 		</div>
@@ -19,6 +21,8 @@
 			</div>
 		</div>
 		<div class="operation__check-blok">
+			<button v-show = "(item.started == '1')"  class="btn qualityBtn" @click.prevent="quality()">Качество</button>
+
 			<p v-if = "item.fixation == '1'" class="statusLabe">Статус: {{item.fixation_status}}</p>
 			<button v-if = "(item.started == '0')&&(item.fixation == '0')" class="btn btnStart" @click.prevent="startThis(item.id)">Старт</button>
 			<span v-if = "item.fixation == '1'" class="operation__check-icon"></span>
@@ -31,6 +35,8 @@
 import {mapGetters} from 'vuex'
 import dialogWin from './dialogWin.vue';
 import axios from 'axios';
+import DialogWinStart from './dialogWinStart.vue';
+import DialogWinQuality from './dialogWinQuality.vue';
 
 export default {
 	data() {
@@ -80,11 +86,71 @@ export default {
 						this.show_this_dialog = false;
 					}
 				}
-			}
+			},
+
+			show_start_dialog:false,
+			startWinParam: {
+				head: "Запуск oперации",
+				msg: "",
+				fixSatatuses:[],
+				fixAllow: false,
+				callback: {
+					doOk: (id) => {
+						axios.get(this.REST_API_PREFIX + 'set_start',
+									{
+										params: {
+											id: id,
+										}
+									})
+									.then( (response) => {
+										console.log(response);
+										this.$store.dispatch('setProductGuid', this.PRODUCT_GUID);
+									})
+
+									.catch((error) => {
+										let rezText = "";
+											if (error.response)
+											{
+												rezText = error.response.data.message;
+											} else 
+											if (error.request) {
+												rezText = error.message;
+											} else {
+												rezText = error.message;
+											}
+
+										console.log(rezText);
+										console.log(error.config);
+									});
+					},
+
+					doConcle: () => {
+						console.log("NoOk");
+						this.show_start_dialog = false;
+					}
+				}
+			},
+
+			show_quality_dialog:false, 
+			qualityWinParam: {
+				head: "Оценка качества",
+				msg: "",
+				fixSatatuses:[],
+				fixAllow: false,
+				callback: {
+					doOk: () => {
+						
+					},
+
+					doConcle: () => {
+						this.show_quality_dialog = false;
+					}
+				}
+			},
       }
     },
 
-    components: { dialogWin },
+    components: { dialogWin, DialogWinStart, DialogWinQuality },
     props: ['item'],
 	
 	computed: {
@@ -95,8 +161,7 @@ export default {
 			let operationNumber = parseInt (this.item.operation_number);
 			if (operationNumber == 1)
 			{
-				console.log(1);
-				console.log(this.winParam);
+				
 				this.winParam.msg = "Вы хотите зафиксировать:<br/>"+
 				this.ROAT_LIST.timeline[0].operation_name+" / "+this.ROAT_LIST.timeline[0].work_centers+"<br/>";
 				this.winParam.fixSatatuses = this.ROAT_LIST.timeline[0].fix_statuses;
@@ -104,10 +169,10 @@ export default {
 			} else {
 				if (parseInt(this.ROAT_LIST.timeline[operationNumber-2].fixation) == 0) 
 				{
-					console.log(2);
+				
 					this.winParam.fixAllow = false;
 				} else {
-					console.log(3);
+				
 					this.winParam.msg = "Вы хотите зафиксировать:<br/>"+
 					this.ROAT_LIST.timeline[operationNumber-1].operation_name+" / "+this.ROAT_LIST.timeline[operationNumber-1].work_centers+"<br/>";
 					this.winParam.fixSatatuses = this.ROAT_LIST.timeline[operationNumber-1].fix_statuses;					
@@ -120,34 +185,36 @@ export default {
 		},
 
 		startThis(id) {
-			axios.get(this.REST_API_PREFIX + 'set_start',
+			let operationNumber = parseInt (this.item.operation_number);
+			
+			if (operationNumber == 1)
 			{
-				params: {
-					id: id,
+				
+				this.startWinParam.msg = "Вы хотите запустить: <br/>"+
+				this.ROAT_LIST.timeline[0].operation_name+" / "+this.ROAT_LIST.timeline[0].work_centers+"<br/>";
+				this.startWinParam.fixSatatuses = [id];
+				this.startWinParam.fixAllow = true;
+			} else {
+				if (parseInt(this.ROAT_LIST.timeline[operationNumber-2].fixation) == 0) 
+				{
+				
+					this.startWinParam.fixAllow = false;
+				} else {
+				
+					this.startWinParam.msg = "Вы хотите запустить:<br/>"+
+					this.ROAT_LIST.timeline[operationNumber-1].operation_name+" / "+this.ROAT_LIST.timeline[operationNumber-1].work_centers+"<br/>";
+					this.startWinParam.fixSatatuses = [id];				
+					this.startWinParam.fixAllow = true;
 				}
-			})
-			.then( (response) => {
-				console.log(response);
-				this.$store.dispatch('setProductGuid', this.PRODUCT_GUID);
-			})
+			}
+			console.log(this.startWinParam.fixSatatuses)
+			this.show_start_dialog = true;
+		},
 
-			.catch((error) => {
-				let rezText = "";
-					if (error.response)
-					{
-						rezText = error.response.data.message;
-					} else 
-					if (error.request) {
-						rezText = error.message;
-					} else {
-						rezText = error.message;
-					}
-
-				console.log(rezText);
-				console.log(error.config);
-			});
-						
+		quality() {
+			this.show_quality_dialog = true;
 		}
+
 	}
 }
 </script>
@@ -160,6 +227,10 @@ export default {
 .btnStart {
 	background-color: #347815;
 	margin: auto 20px auto 0;
+}
+
+.qualityBtn {
+	margin: auto 0 auto 0;
 }
 
 </style>
