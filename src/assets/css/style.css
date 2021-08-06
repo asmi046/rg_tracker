@@ -192,10 +192,21 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none; 
-  
     border: 1px solid lightgray;
+    min-height: 35px;
+    border-radius: 5px;
+    padding: 0 10px;
   }
   
+  label {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  textarea {
+    min-height: 130px;
+  }
+
   select {
     border: 1px solid #D1D2D4;
     border-radius: 20px;

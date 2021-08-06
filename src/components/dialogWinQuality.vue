@@ -1,5 +1,5 @@
 <template>
-    <div class = "dialogWrapper" @click.prevent="closeWin">
+    <div class = "dialogWrapper" >
         <div class="dialogWin">
             <div class="head">
                 <span>{{information.head}}</span>
@@ -10,6 +10,12 @@
                 <form action="" class="qualityForm">
                     <label for = "metr">Метр</label>
                     <input type="number" class="metr" id = "metr" value="0" >
+                    
+                    <h3 v-show = "this.information.difList != 0" class="diffectListHeader">Список диффектов</h3>
+                    <div class="diffectsList">
+                        <label v-for = "(item, index) in this.information.difList" :item = "item.id" :key="item.id" :for = "'diffects'+index" > <input type="checkbox" :id="'diffects'+index"> {{item.name}} </label>
+                    </div>
+
                     <label for = "comment">Комментарий</label>
                     <textarea id = "comment">
                     </textarea>
@@ -18,8 +24,7 @@
 
             <div class="footer">
                 
-                <button @click.prevent="doOk(item)" v-for = "(item, index) in this.information.fixSatatuses" :item = "item" :key="item" :class = "'btn_ok_'+index" class = "btn ok btnStart">Запустить</button>
-                <!-- <button class = "btn ok" @click.prevent="doOk">Фиксировать</button> -->
+                 <button class = "btn ok" @click.prevent="doOk">Отправить</button> 
                 <button class = "btn concle" @click.prevent="closeWin">Oтменить</button>
             </div>
         </div>
@@ -52,6 +57,11 @@ export default {
     z-index: 900000000;
     top:0;
     left:0;
+    overflow: auto;
+}
+
+.dialogWrapper::-webkit-scrollbar {
+  width: 0;
 }
 
 .dialogWin {
@@ -90,7 +100,7 @@ export default {
 }
 
 .body{
-    height: 100px;
+    min-height: 100px;
     margin: 10px auto;
 }
 
@@ -126,6 +136,21 @@ h2 {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.diffectListHeader {
+    margin: 10px 0;
+}
+
+.diffectsList {
+    display:flex;
+    flex-direction: column;
+    width:100%;
+}
+
+.diffectsList label{
+    font-size: 12px;
+    margin: 7px 0;
 }
 
 </style>

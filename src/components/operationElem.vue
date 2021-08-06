@@ -21,11 +21,13 @@
 			</div>
 		</div>
 		<div class="operation__check-blok">
-			<button v-show = "(item.started == '1')"  class="btn qualityBtn" @click.prevent="quality()">Качество</button>
-
-			<p v-if = "item.fixation == '1'" class="statusLabe">Статус: {{item.fixation_status}}</p>
+			<button v-show = "(item.started == '1')"  class="btn qualityBtn" @click.prevent="quality(item.operation_number)">Качество</button>
 			<button v-if = "(item.started == '0')&&(item.fixation == '0')" class="btn btnStart" @click.prevent="startThis(item.id)">Старт</button>
-			<span v-if = "item.fixation == '1'" class="operation__check-icon"></span>
+			<div v-if = "item.fixation == '1'" class="statusFix">
+				<p class="statusLabe">Статус: {{item.fixation_status}}</p>
+				<span class="operation__check-icon"></span>
+			</div>
+			
             <button :disabled = "(item.started == '0')" v-else class="btn" @click.prevent="fixThis()">Фиксировать</button>
 		</div>
 	</div>
@@ -134,9 +136,7 @@ export default {
 			show_quality_dialog:false, 
 			qualityWinParam: {
 				head: "Оценка качества",
-				msg: "",
-				fixSatatuses:[],
-				fixAllow: false,
+				difList:[],
 				callback: {
 					doOk: () => {
 						
@@ -211,7 +211,8 @@ export default {
 			this.show_start_dialog = true;
 		},
 
-		quality() {
+		quality(index) {
+			this.qualityWinParam.difList = this.ROAT_LIST.timeline[index].diffects,
 			this.show_quality_dialog = true;
 		}
 
@@ -230,7 +231,30 @@ export default {
 }
 
 .qualityBtn {
-	margin: auto 0 auto 0;
+	margin: auto auto auto 0;
+}
+
+.statusFix {
+	display: flex;
+}
+
+.operation__check-blok {
+	display: flex;
+}
+
+@media (max-width: 812px) {
+	.operation__check-blok {
+		flex-direction: column;
+	}	
+
+	.operation__check-blok .btn { 
+		margin: 5px 0;
+		width: 100%;
+	}
+
+	.statusFix { 
+		margin: 5px 0;
+	}
 }
 
 </style>

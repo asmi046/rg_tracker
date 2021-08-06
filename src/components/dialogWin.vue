@@ -1,5 +1,5 @@
 <template>
-    <div class = "dialogWrapper" @click.prevent="closeWin">
+    <div class = "dialogWrapper" >
         <div class="dialogWin">
             <div class="head">
                 <span>{{information.head}}</span>
