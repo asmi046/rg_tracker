@@ -4,7 +4,7 @@
 		<dialog-win-start v-show="show_start_dialog" :information = "startWinParam" ></dialog-win-start>
 		<dialog-win-quality v-show="show_quality_dialog" :information = "qualityWinParam"></dialog-win-quality>
 		<div class="operation__item-title">
-			<h2>{{item.operation_name}} / {{item.work_centers}}</h2>
+			<h2>{{item.operation_name}} /  <router-link  :to = "{ name: 'workcenter', params: {center: item.work_centers}  }"> {{item.work_centers}}</router-link></h2>
 		</div>
 		<div class="operation__tables">
 			<div class="operation__string d-flex">
