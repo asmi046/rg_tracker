@@ -138,8 +138,60 @@ export default {
 				head: "Оценка качества",
 				difList:[],
 				callback: {
-					doOk: () => {
+					doOk: (paramt) => {
 						
+						let result = [];
+
+						for (let i = 0; i<paramt.list.length; i++) {
+							if (paramt.list[i].checed)
+							result.push({
+								metr: paramt.metr,
+								orderNumber: this.item.order_number,
+								buhtaNumber: this.item.buhta_number,
+								workCenter: this.item.work_centers,
+								diffect: paramt.list[i].name,
+								comment: paramt.comment
+							})
+						}
+
+						if (result.length == 0) {
+							result.push({
+								metr: paramt.metr,
+								orderNumber: this.item.order_number,
+								buhtaNumber: this.item.buhta_number,
+								workCenter: this.item.work_centers,
+								diffect: "Нет",
+								comment: paramt.comment
+							})
+						}
+
+						axios.get(this.REST_API_PREFIX + 'fix_diffect',
+						{
+							params: {
+								fixdata: result
+							}
+						})
+						.then( (response) => {
+							console.log(response);
+						})
+
+						.catch((error) => {
+							let rezText = "";
+								if (error.response)
+								{
+									rezText = error.response.data.message;
+								} else 
+								if (error.request) {
+									rezText = error.message;
+								} else {
+									rezText = error.message;
+								}
+
+							console.log(rezText);
+							console.log(error.config);
+						});
+
+						console.log(result);
 					},
 
 					doConcle: () => {

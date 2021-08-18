@@ -9,22 +9,22 @@
             <div class="body">
                 <form action="" class="qualityForm">
                     <label for = "metr">Метр</label>
-                    <input type="number" class="metr" id = "metr" value="0" >
+                    <input v-model = "metr" type="number" class="metr" id = "metr" value="0" >
                     
                     <h3 v-show = "this.information.difList != 0" class="diffectListHeader">Список диффектов</h3>
                     <div class="diffectsList">
-                        <label v-for = "(item, index) in this.information.difList" :item = "item.id" :key="item.id" :for = "'diffects'+index" > <input type="checkbox" :id="'diffects'+index"> {{item.name}} </label>
+                        <label v-for = "(item, index) in this.information.difList" :item = "item.id" :key="item.id" :for = "'diffects'+index" > <input v-model = "item.checed" type="checkbox" :id="'diffects'+index"> {{item.name}} </label>
                     </div>
 
                     <label for = "comment">Комментарий</label>
-                    <textarea id = "comment">
+                    <textarea v-model = "comment" id = "comment">
                     </textarea>
                 </form>
             </div>
 
             <div class="footer">
                 
-                 <button class = "btn ok" @click.prevent="doOk">Отправить</button> 
+                 <button class = "btn ok" @click.prevent="doOk({'metr': metr, 'comment':comment, 'list':information.difList})">Отправить</button> 
                 <button class = "btn concle" @click.prevent="closeWin">Oтменить</button>
             </div>
         </div>
@@ -33,6 +33,13 @@
 
 <script>
 export default {
+
+    data() {
+        return {
+            metr:0,
+            comment:""
+        }
+    },
 
     props: ['information'],
 
