@@ -6,6 +6,7 @@ import allRoats from '../components/allRoats'
 import mainPage from '../components/mainPage'
 import workCenters from '../components/workCenters'
 import workCenter from '../components/workCenter'
+import tablo from '../components/tablo'
 
 Vue.use(VueRouter);
 
@@ -42,6 +43,13 @@ let router = new VueRouter ( {
                 meta: {title: "Рабочий центр"},
                 props: true,
                 component: workCenter
+            },
+            {
+                path: '/tablo:center/',
+                name: 'tablo',
+                meta: {title: "Табло"},
+                props: true,
+                component: tablo
             } 
         ]
     }
