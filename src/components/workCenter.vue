@@ -37,8 +37,8 @@
                         {{new Date(item.start_data.replace(/-/g, "/")).toLocaleDateString()}} 
                     </div>
                     
-                    <div class="stb stb4">
-                        {{item.fixation_status}} 
+                    <div class="stb stb-full">
+                         <operation-fix-blk :item = "item"></operation-fix-blk>
                     </div>
                     
                 </div>
@@ -56,6 +56,7 @@ import axios from 'axios';
 import HeadApp from './headApp.vue'
 import qrReader from './qrReader.vue'
 import {mapGetters} from 'vuex'
+import OperationFixBlk from './operationFixBlk.vue';
 export default {
     data() {
         return {
@@ -66,7 +67,7 @@ export default {
 
     props: ['center'],
 
-    components: { qrReader, HeadApp },
+    components: { qrReader, HeadApp, OperationFixBlk },
 
     computed: {
         ...mapGetters (["REST_API_PREFIX", "QR_READER_SHOWED"])
@@ -133,20 +134,32 @@ export default {
     .oneWc{
         border: 1px solid #D1D2D4;
         border-radius: 10px;
-        
         margin: 10px 0;
         width: 100%;
         min-width: 300px;
         display: flex;
+        flex-wrap: wrap;
     }
 
     .oneWc .stb {
-        width: 33%;
+        width: 20%;
         padding: 10px;
     }
 
     .oneWc .stb { 
         border-right: 1px solid #D1D2D4;
+    }
+
+    .oneWc .stb3 { 
+        border-right: none;
+        
+    }
+
+    .oneWc .stb-full { 
+        border-right: none;
+        width: 100%;
+        border-top: 1px solid #D1D2D4;
+        
     }
 
     .oneWc .stb:last-child { 
@@ -167,6 +180,10 @@ export default {
 
     .red{
         color: #C4041C;    
+    }
+
+    .stb-full {
+        width:100%
     }
 
     @media (max-width: 1024px) { 
