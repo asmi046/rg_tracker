@@ -4,32 +4,35 @@
       <head-app header = "Очередь выполнения"></head-app>
       
       <div class="allWorkCenters">
-            <h1>{{$route.params.center}}</h1>
-            <div class="tabloWrapper">
-                <div v-for = "(item, index) in tabloInfo.timeline" :item = "item" :key="item.id" :class = "'te_'+index" class="tablo_elem">
-                    
-                    <div class="tl_elem">
-                        <h2 class="big_text">{{item.buhta_number}}</h2>
-                    </div>
+            <div v-for = "(item, key, index) in tabloInfo.timeline" :item = "item" :key="key" :class = "'ca_'+index" class="centres">
+                <h1 class = "cl_blk">{{key}}</h1>
+                <div class="tabloWrapper">
+                    <div v-for = "(item, index) in item" :item = "item" :key="item.id" :class = "'te_'+index" class="tablo_elem">
+                        
+                        <div class="tl_elem">
+                            <h2 class="big_text">{{item.buhta_number}}</h2>
+                        </div>
 
-                    <div class="tl_elem">
-                        <strong>Планируемая дата запуска</strong> {{new Date(item.start_data.replace(/-/g, "/")).toLocaleDateString()}} 
-                        {{new Date(item.start_data).toLocaleTimeString()}} 
-                    </div>
+                        <div class="tl_elem">
+                            <strong>Планируемая дата запуска</strong> {{new Date(item.start_data.replace(/-/g, "/")).toLocaleDateString()}} 
+                            {{new Date(item.start_data).toLocaleTimeString()}} 
+                        </div>
 
-                    <div class="tl_elem">
-                        <strong>Наименование:</strong> {{item.nam}}
-                    </div>
+                        <div class="tl_elem">
+                            <strong>Наименование:</strong> {{item.nam}}
+                        </div>
 
-                    <div class="tl_elem">
-                        <strong>Спецификация:</strong> {{item.sp}}
-                    </div>
+                        <div class="tl_elem">
+                            <strong>Спецификация:</strong> {{item.sp}}
+                        </div>
 
-                    <div class="tl_elem">
-                        <span class = "red">{{item.order_number}}</span> {{item.contragent}} 
+                        <div class="tl_elem">
+                            <span class = "red">{{item.order_number}}</span> {{item.contragent}} 
+                        </div>
                     </div>
                 </div>
             </div>
+            
             
       </div>
   </div>
@@ -58,7 +61,7 @@ export default {
         axios.get(this.REST_API_PREFIX + 'get_tablo',
             {
                 params: {
-                    center: this.$route.params.center,
+                    group: this.$route.params.center,
                 }
             })
             .then( (response) => {
@@ -91,11 +94,12 @@ export default {
     display: flex;
     flex-direction: row-reverse;
     margin-top: 20px;
+    justify-content: left;
 }
 
 .tablo_elem {
     border: 1px solid #D1D2D4;
-    padding: 10px 30px;
+    padding: 10px 20px;
     margin-right: 20px;
     border-radius: 10px;
     display: flex;
@@ -103,12 +107,23 @@ export default {
 }
 
 .tl_elem {
-    margin: 10px;
+    margin: 6px;
 }
 
 
 .big_text{
     font-size: 28px;
+}
+
+.centres {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 40px;
+}
+
+.cl_blk {
+    color:black
 }
 
 </style>
