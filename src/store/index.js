@@ -7,6 +7,11 @@ Vue.use(Vuex)
 
 export default new Vuex.Store ({
     state: {
+        // Поля авторизации
+        autorise: false,
+        userName: "",
+        userEmail: "",
+
         rest_api_prefix:"https://rubexgroup.ru/wp-json/mes/v2/",
         roatLaderShow:false,
         qrReaderShowed:false,
@@ -20,6 +25,16 @@ export default new Vuex.Store ({
     },
 
     actions: {
+
+        // Экшкны авторизации
+        chengeAutorise(ctx, value){
+            ctx.commit('updateAutorise', value);
+        },
+    
+        chengeUserName(ctx, value){
+            ctx.commit('updateUserName', value);
+        },
+        //----------------
 
         showQrReader(ctx){
             ctx.commit('showQrReader');
@@ -65,6 +80,17 @@ export default new Vuex.Store ({
     },
 
     mutations: {
+        // Мутации авторизации
+        updateAutorise(state, newVal) {
+            state.autorise = newVal;
+        },
+    
+        updateUserName(state, newVal) {
+            state.userName = newVal;
+        },
+        
+        //----------------
+
         showQrReader(state) {
             state.qrReaderShowed = !state.qrReaderShowed;
 
@@ -93,6 +119,17 @@ export default new Vuex.Store ({
     },
     
     getters: {
+
+        // Геттеры авторизации 
+        AUTORISE (state) {
+            return state.autorise;
+        },
+    
+        USER_NAME (state) {
+            return state.userName;
+        },
+        //----------------
+
         REST_API_PREFIX (state) {
             return state.rest_api_prefix;
         },

@@ -188,7 +188,7 @@
     line-height: 16px;
     left: 20px; }
   
-  input[type=text], input[type=email], input[type=number], input[type=tel], textarea {
+    input[type=password],  input[type=text], input[type=email], input[type=number], input[type=tel], textarea {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none; 
@@ -852,6 +852,14 @@
     font-weight: 500;
     color: #C4041C; }
   
+  .errorMsg {
+    margin: 10px 0;
+    background-color: #f26d7d;
+    border-radius: 10px;
+    padding: 10px 15px;
+    color: white;
+  }
+
   @media (max-width: 812px) {
     .header {
       position: fixed;

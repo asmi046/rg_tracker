@@ -6,7 +6,10 @@ import allRoats from '../components/allRoats'
 import mainPage from '../components/mainPage'
 import workCenters from '../components/workCenters'
 import workCenter from '../components/workCenter'
+import login from '../components/login'
 import tablo from '../components/tablo'
+import allLibs from '../lib/libs'
+import store from '../store';
 
 Vue.use(VueRouter);
 
@@ -24,6 +27,12 @@ let router = new VueRouter ( {
                 name: 'roatlist',
                 meta: {title: "Маршрутный лист"},
                 component: roatList
+            },
+            {
+                path: '/login',
+                name: 'login',
+                meta: {title: "Вход в систему"},
+                component: login
             },
             {
                 path: '/all-roats',
@@ -56,10 +65,24 @@ let router = new VueRouter ( {
 );
 
 router.beforeEach((to, from, next) => {
-    
     document.title = to.meta.title;
-    console.log(to);
-    console.log(from);
+       
+    let autorise = allLibs.getCookie("servautorise"); 
+    if (autorise != undefined) 
+    {
+        store.dispatch('chengeAutorise',  true);
+        store.dispatch('chengeUserName',   localStorage.getItem('name'));
+    }
+    else {
+        store.dispatch('chengeAutorise',  false);
+        if (to.name !== "login") 
+            allLibs.reloginUser();
+    } 
+
+    if ((!store.getters.AUTORISE) && (to.name !== "login")) {
+        router.push({ name: 'login' })
+    }   
+    
     next();
 });
 
