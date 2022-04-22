@@ -39,7 +39,7 @@
                     </div>
                     
                     <div class="stb stb-full">
-                         <operation-fix-blk :item = "item"></operation-fix-blk>
+                         <operation-fix-blk-in-centers :getcenters = getCenter  :item = "item"></operation-fix-blk-in-centers >
                     </div>
                     
                 </div>
@@ -57,7 +57,7 @@ import axios from 'axios';
 import HeadApp from './headApp.vue'
 import qrReader from './qrReader.vue'
 import {mapGetters} from 'vuex'
-import OperationFixBlk from './operationFixBlk.vue';
+import OperationFixBlkInCenters from './operationFixBlkInCenters.vue';
 export default {
     data() {
         return {
@@ -68,7 +68,7 @@ export default {
 
     props: ['center'],
 
-    components: { qrReader, HeadApp, OperationFixBlk },
+    components: { qrReader, HeadApp, OperationFixBlkInCenters },
 
     computed: {
         ...mapGetters (["REST_API_PREFIX", "QR_READER_SHOWED"])

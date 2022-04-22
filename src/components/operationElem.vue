@@ -2,7 +2,7 @@
     <div class="operation__item-block">
 		
 		<div class="operation__item-title">
-			<h2>{{item.operation_name}} /  <router-link  :to = "{ name: 'workcenter', params: {center: item.work_centers}  }"> {{item.work_centers}}</router-link></h2>
+			<h2>{{item.operation_name}} /  <router-link  :to = "{ name: 'workcenter', params: {center: item.work_centers}  }"> {{item.work_centers}}</router-link> ({{item.operation_number}})</h2>
 		</div>
 		<div class="operation__tables">
 			<div class="operation__string d-flex">
