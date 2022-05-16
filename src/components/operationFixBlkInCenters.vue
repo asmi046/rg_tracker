@@ -4,14 +4,14 @@
 		<dialog-win-start v-show="show_start_dialog" :information = "startWinParam" ></dialog-win-start>
 		<dialog-win-quality v-show="show_quality_dialog" :information = "qualityWinParam"></dialog-win-quality>
 
-		<button v-show = "(item.started == '1')"  class="btn qualityBtn" @click.prevent="quality(item.operation_number)">Качество</button>
+		<button v-show = "(item.started == '1')"  class="btn qualityBtn" @click.prevent="quality(item)">Качество</button>
 		<button v-if = "(item.started == '0')&&(item.fixation == '0')" class="btn btnStart" @click.prevent="startThis(item.id)">Старт</button>
 		<div v-if = "item.fixation == '1'" class="statusFix">
 			<p class="statusLabe">Статус: {{item.fixation_status}}</p>
 			<span class="operation__check-icon"></span>
 		</div>
 		
-        <button :disabled = "(item.started == '0')" v-else class="btn" @click.prevent="fixThis()">Фиксировать</button>
+        <button :disabled = "(item.started == '0')" v-else class="btn" @click.prevent="fixThis(item)">Фиксировать</button>
 
     </div>
 </template>
@@ -45,7 +45,7 @@ export default {
 						})
 						.then( (response) => {
 							console.log(response);
-							this.$store.dispatch('setProductGuid', this.PRODUCT_GUID);
+							this.getcenters()
 						})
 
 						.catch((error) => {
@@ -158,6 +158,8 @@ export default {
 						})
 						.then( (response) => {
 							console.log(response);
+							this.getcenters()
+							this.show_quality_dialog = false;
 						})
 
 						.catch((error) => {
@@ -196,17 +198,18 @@ export default {
     },
 
     methods: {
-		fixThis() {
+		fixThis(item) {
 
-				
-			// 	this.winParam.msg = "Вы хотите зафиксировать:<br/>"+
-			// 	this.item.operation_name+" / "+this.item.work_centers+"<br/>";
-			// 	this.winParam.fixSatatuses = this.ROAT_LIST.timeline[0].fix_statuses;
-			// 	this.winParam.fixAllow = true;
+			console.log(item)
+
+			this.winParam.msg = "Вы хотите зафиксировать:<br/>"+
+			this.item.operation_name+" / "+this.item.work_centers+"<br/>";
+			this.winParam.fixSatatuses = item.fix_statuses;
+			this.winParam.fixAllow = true;
 
 			
-			// this.fixArray.push(this.ROAT_LIST.timeline[operationNumber-1].id);
-			// this.show_this_dialog = true;
+			this.fixArray.push(item.id);
+			this.show_this_dialog = true;
 		},
 
 		startThis(id) {
@@ -224,13 +227,8 @@ export default {
 			this.show_start_dialog = true;
 		},
 
-		quality(index) {
-            if (this.ROAT_LIST.length == 0) 
-            {
-                console.log("Get roat list")
-                this.$store.dispatch('setProductGuid', this.item.id_guid);
-            }
-			this.qualityWinParam.difList = this.ROAT_LIST.timeline[index].diffects,
+		quality(item) {
+			this.qualityWinParam.difList = item.diffects,
 			this.show_quality_dialog = true;
 		}
 

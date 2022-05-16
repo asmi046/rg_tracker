@@ -4,14 +4,14 @@
 		<dialog-win-start v-show="show_start_dialog" :information = "startWinParam" ></dialog-win-start>
 		<dialog-win-quality v-show="show_quality_dialog" :information = "qualityWinParam"></dialog-win-quality>
 
-		<button v-show = "(item.started == '1')"  class="btn qualityBtn" @click.prevent="quality(item.operation_number)">Качество</button>
-		<button v-if = "(item.started == '0')&&(item.fixation == '0')" class="btn btnStart" @click.prevent="startThis(item.id)">Старт</button>
+		<button v-show = "(item.started == '1')"  class="btn qualityBtn" @click.prevent="quality(index)">Качество</button>
+		<button v-if = "(item.started == '0')&&(item.fixation == '0')" class="btn btnStart" :class = "'btn'+index" @click.prevent="startThis(item.id, index)">Старт</button>
 		<div v-if = "item.fixation == '1'" class="statusFix">
 			<p class="statusLabe">Статус: {{item.fixation_status}}</p>
 			<span class="operation__check-icon"></span>
 		</div>
 		
-        <button :disabled = "(item.started == '0')" v-else class="btn" @click.prevent="fixThis()">Фиксировать</button>
+        <button :disabled = "(item.started == '0')" v-else class="btn" @click.prevent="fixThis(index)">Фиксировать</button>
 
     </div>
 </template>
@@ -187,21 +187,22 @@ export default {
     },
 
     components: { dialogWin, DialogWinStart, DialogWinQuality },
-    props: ['item'],
+    props: ['item', 'index'],
 
     computed: {
         ...mapGetters (["PRODUCT_GUID","REST_API_PREFIX", "ROAT_LIST"])
     },
 
     methods: {
-		fixThis() {
+		fixThis(index) {
             if (this.ROAT_LIST.length == 0) 
             {
                 console.log("Get roat list")
                 this.$store.dispatch('setProductGuid', this.item.id_guid)
             }
-			let operationNumber = parseInt (this.item.operation_number);
-			if (operationNumber == 1)
+			// let operationNumber = parseInt (this.item.operation_number);
+			
+			if (index == 0)
 			{
 				
 				this.winParam.msg = "Вы хотите зафиксировать:<br/>"+
@@ -209,32 +210,33 @@ export default {
 				this.winParam.fixSatatuses = this.ROAT_LIST.timeline[0].fix_statuses;
 				this.winParam.fixAllow = true;
 			} else {
-				if (parseInt(this.ROAT_LIST.timeline[operationNumber-2].fixation) == 0) 
+				if (parseInt(this.ROAT_LIST.timeline[index-1].fixation) == 0) 
 				{
 				
 					this.winParam.fixAllow = false;
 				} else {
 				
 					this.winParam.msg = "Вы хотите зафиксировать:<br/>"+
-					this.ROAT_LIST.timeline[operationNumber-1].operation_name+" / "+this.ROAT_LIST.timeline[operationNumber-1].work_centers+"<br/>";
-					this.winParam.fixSatatuses = this.ROAT_LIST.timeline[operationNumber-1].fix_statuses;					
+					this.ROAT_LIST.timeline[index].operation_name+" / "+this.ROAT_LIST.timeline[index].work_centers+"<br/>";
+					this.winParam.fixSatatuses = this.ROAT_LIST.timeline[index].fix_statuses;					
 					this.winParam.fixAllow = true;
 				}
 			}
 			
-			this.fixArray.push(this.ROAT_LIST.timeline[operationNumber-1].id);
+			this.fixArray.push(this.ROAT_LIST.timeline[index].id);
 			this.show_this_dialog = true;
 		},
 
-		startThis(id) {
-            if (this.ROAT_LIST.length == 0) 
+		startThis(id, index) {
+            console.log(index)
+			if (this.ROAT_LIST.length == 0) 
             {
                 console.log("Get roat list")
                 this.$store.dispatch('setProductGuid', this.item.id_guid);
             }
-			let operationNumber = parseInt (this.item.operation_number);
+			// let operationNumber = parseInt (this.item.operation_number);
 			
-			if (operationNumber == 1)
+			if (index == 0)
 			{
 				
 				this.startWinParam.msg = "Вы хотите запустить: <br/>"+
@@ -242,14 +244,14 @@ export default {
 				this.startWinParam.fixSatatuses = [id];
 				this.startWinParam.fixAllow = true;
 			} else {
-				if (parseInt(this.ROAT_LIST.timeline[operationNumber-2].fixation) == 0) 
+				if (parseInt(this.ROAT_LIST.timeline[index-1].fixation) == 0) 
 				{
 				
 					this.startWinParam.fixAllow = false;
 				} else {
 				
 					this.startWinParam.msg = "Вы хотите запустить:<br/>"+
-					this.ROAT_LIST.timeline[operationNumber-1].operation_name+" / "+this.ROAT_LIST.timeline[operationNumber-1].work_centers+"<br/>";
+					this.ROAT_LIST.timeline[index-1].operation_name+" / "+this.ROAT_LIST.timeline[index-1].work_centers+"<br/>";
 					this.startWinParam.fixSatatuses = [id];				
 					this.startWinParam.fixAllow = true;
 				}

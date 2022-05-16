@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div class="operation__check-blok">
-			<operation-fix-blk :item="item"></operation-fix-blk>
+			<operation-fix-blk :item="item" :index = "index"></operation-fix-blk>
 		</div>
 	</div>
 </template>
@@ -36,7 +36,7 @@ export default {
       }
     },
 
-    props: ['item'],
+    props: ['item', 'index'],
 	
 
 	
